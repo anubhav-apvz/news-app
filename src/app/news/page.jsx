@@ -1,7 +1,5 @@
-// import News from "@/components/News";
 import News from "@/components/news/News";
-import { GET } from "@/services/api";
-import { cleanObject, convertDate, formatCategory } from "@/services/common";
+import { convertDate, formatCategory } from "@/services/common";
 import Endpoints from "@/services/constants";
 import React from "react";
 
@@ -29,8 +27,6 @@ const fetchData = async () => {
         next: { revalidate: 900 },
       })
     ).json();
-
-    //Promise.allSettled
 
     const finalCategoryData = [
       {

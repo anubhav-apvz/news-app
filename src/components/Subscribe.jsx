@@ -1,9 +1,11 @@
+"use client";
 import { useState, useEffect } from "react";
 import { cleanObject, mapCategoryIcons } from "@/services/common";
 import Endpoints from "@/services/constants";
 import { GET } from "@/services/api";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import { subscriptionRevalidation } from "@/app/action";
 
 const style = {
   position: "absolute",
@@ -17,7 +19,7 @@ const style = {
   borderRadius: "16px",
 };
 
-const Subscribe = () => {
+const Subscribe = ({ subscriptionData }) => {
   // const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -25,7 +27,14 @@ const Subscribe = () => {
   const [modalHeader, setModalHeader] = useState("");
   const [isSubscribe, setIsSubscribe] = useState(false);
 
-  const [subscriptionData, setSubscriptionData] = useState([]);
+  // const [subscriptionData, setSubscriptionData] = useState([]);
+  const [filteredSubscriptionData, setFilteredSubscriptionData] = useState();
+
+  useEffect(() => {
+    if (subscriptionData) {
+      setFilteredSubscriptionData(subscriptionData);
+    }
+  }, []);
 
   const [filters, setFilters] = useState([
     { id: 0, name: "Explore", isActive: true },
@@ -39,7 +48,7 @@ const Subscribe = () => {
 
   const fetchData = async () => {
     try {
-      const activeFilters = filters.filter(filter => filter.isActive);
+      const activeFilters = filters.filter((filter) => filter.isActive);
       let payload = {};
       if (activeFilters[0]?.id == 1) {
         payload = {
@@ -67,7 +76,7 @@ const Subscribe = () => {
         ...item,
         image: mapCategoryIcons(item?.category_name),
       }));
-      setSubscriptionData(popularData);
+      setFilteredSubscriptionData(popularData);
       // setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -75,14 +84,28 @@ const Subscribe = () => {
   };
 
   useEffect(() => {
-    const initialize = async () => {
-      // setLoading(true);
-      await fetchData();
-      // setLoading(false);
-    };
-
-    initialize();
-  }, [filters]);
+    if (subscriptionData) {
+      const activeFilterId = filters.filter((filter) => filter.isActive)[0]?.id;
+      if (activeFilterId === 1) {
+        setFilteredSubscriptionData(
+          subscriptionData
+            ?.filter((item) => item.subscribed === 1)
+            .map((item) => ({
+              ...item,
+              image: mapCategoryIcons(item?.category_name),
+            }))
+        );
+        // setSubscriptionData(popularData);
+      } else {
+        setFilteredSubscriptionData(
+          subscriptionData.map((item) => ({
+            ...item,
+            image: mapCategoryIcons(item?.category_name),
+          }))
+        );
+      }
+    }
+  }, [filters, subscriptionData]);
 
   const handleFilterChange = async (index) => {
     setFilters((prevFilters) =>
@@ -96,11 +119,11 @@ const Subscribe = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = async () => {
     setOpen(false);
-    await fetchData();
+    // await fetchData();
+    subscriptionRevalidation();
   };
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
-    console.log(isSub, userEmail, categoryId);
     setIsSubscribe(isSub);
     setCategoryName(catName);
     if (isSub) {
@@ -109,9 +132,17 @@ const Subscribe = () => {
         `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}`,
         {}
       );
-      console.log("subscribe -> ", res);
+
       if (res) {
         handleOpen();
+        setFilteredSubscriptionData((prevData) => {
+          return prevData.map((item) => {
+            if (item.categoryId === categoryId)
+              return { ...item, subscribed: true };
+
+            return item;
+          });
+        });
       }
     } else {
       setModalHeader("Unsubscribed succesfully!");
@@ -119,9 +150,16 @@ const Subscribe = () => {
         `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}`,
         {}
       );
-      console.log("unsubscribe -> ", res);
+
       if (res) {
         handleOpen();
+        setFilteredSubscriptionData((prevData) => {
+          return prevData.map((item) => {
+            if (item.categoryId === categoryId)
+              return { ...item, subscribed: false };
+            return item;
+          });
+        });
       }
     }
   };
@@ -136,7 +174,7 @@ const Subscribe = () => {
       </div>
 
       {/* SEARCH */}
-      <div className="flex flex-col p-[16px] bg-white">
+      {/* <div className="flex flex-col p-[16px] bg-white">
         <div className="relative flex items-center w-full">
           <img
             className="absolute left-3 text-gray-500"
@@ -149,7 +187,7 @@ const Subscribe = () => {
             placeholder="Search topics..."
           />
         </div>
-      </div>
+      </div> */}
 
       {/* Listing */}
       <div className="flex flex-row ml-[16px] mt-[16px] gap-[8px] overflow-x-auto pb-[10px]">
@@ -169,7 +207,7 @@ const Subscribe = () => {
       </div>
 
       <div className="flex flex-col px-[16px] mb-[10px]">
-        {subscriptionData.map((item, index) => (
+        {filteredSubscriptionData?.map((item, index) => (
           <div
             key={index}
             className="flex flex-row mt-[14px] p-[16px] bg-white rounded-xl gap-[10px] cursor-pointer"
