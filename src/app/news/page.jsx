@@ -1,7 +1,5 @@
-// import News from "@/components/News";
 import News from "@/components/news/News";
-import { GET } from "@/services/api";
-import { cleanObject, convertDate, formatCategory } from "@/services/common";
+import { convertDate, formatCategory } from "@/services/common";
 import Endpoints from "@/services/constants";
 import React from "react";
 
@@ -19,15 +17,11 @@ const fetchData = async () => {
     });
 
     const categoryRes = await (
-      await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`, {
-        next: { revalidate: 60 },
-      })
+      await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`)
     ).json();
 
     const newsRes = await (
-      await fetch(`${Endpoints.BASE_URL}latest-news?${newsfeedParams}`, {
-        next: { revalidate: 60 },
-      })
+      await fetch(`${Endpoints.BASE_URL}latest-news?${newsfeedParams}`)
     ).json();
 
     const finalCategoryData = [

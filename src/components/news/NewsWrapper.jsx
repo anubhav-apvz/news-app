@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Category from "./Category";
 import NewsCard from "../NewsCard";
 
-const ClientWrapper = ({ category, feedData }) => {
+const NewsWrapper = ({ category, feedData }) => {
   const [cat, setCat] = useState(category);
   const [filteredFeedData, setFilteredFeedData] = useState(feedData);
 
@@ -69,4 +69,4 @@ const ClientWrapper = ({ category, feedData }) => {
   );
 };
 
-export default ClientWrapper;
+export default NewsWrapper;
