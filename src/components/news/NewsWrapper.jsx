@@ -32,7 +32,6 @@ const NewsWrapper = ({ category, feedData }) => {
   }
 
   const handleCategoryChange = (index) => {
-    console.log(index);
     setCat((prev) =>
       prev.map((filter, i) => ({
         ...filter,
