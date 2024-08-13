@@ -1,21 +1,55 @@
 'use client'
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Category from "./Category";
 import NewsCard from "../NewsCard";
 
 const ClientWrapper = ({ category, feedData }) => {
-  
-  const handleCategoryChange = (e) => {
-    console.log(e);
+  const [cat, setCat] = useState(category);
+  const [filteredFeedData, setFilteredFeedData] = useState(feedData);
+
+  const filterFeedOnCategoryChange = (filter) => {
+    if (filter?.category_name === "All") {
+      setFilteredFeedData(feedData);
+      return;
+    }
+
+    let filteredData = feedData?.filter((item) => {
+      if (Array.isArray(item?.category)) {
+        const isPresent = item?.category.some(
+          (ele) => ele.toLowerCase() === filter?.category_name.toLowerCase()
+        );
+        if (isPresent) {
+          return item;
+        }
+      } else {
+        if (item?.category === filter?.category_name) {
+          return item;
+        }
+      }
+    });
+    setFilteredFeedData(filteredData);
   }
+
+  const handleCategoryChange = (index) => {
+    console.log(index);
+    setCat((prev) =>
+      prev.map((filter, i) => ({
+        ...filter,
+        isActive: i === index,
+      }))
+    );
+    filterFeedOnCategoryChange(cat[index]); 
+  }
+
+  useEffect(() => {}, [cat])
 
   return (
     <>
       {/* Filters */}
       <div className="flex flex-row ml-[16px] my-[16px] gap-[8px] overflow-x-auto pb-[10px]">
         {/* Category Filter Herer */}
-        <Category filters={category} onCategoryChange={handleCategoryChange}/>
+        <Category filters={cat} onCategoryChange={handleCategoryChange}/>
       </div>
 
       {/* Latest News */}
@@ -28,7 +62,7 @@ const ClientWrapper = ({ category, feedData }) => {
 
         {/* News Cards */}
         <div className="flex flex-col p-[16px] bg-white rounded-xl gap-[16px]">
-          <NewsCard feedData={feedData} />
+          <NewsCard feedData={filteredFeedData} />
         </div>
       </div>
     </>

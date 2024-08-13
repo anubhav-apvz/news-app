@@ -19,14 +19,17 @@ const fetchData = async () => {
     });
 
     const categoryRes = await (
-      await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`)
+      await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`, {
+        next: { revalidate: 60 },
+      })
     ).json();
 
     const newsRes = await (
-      await fetch(`${Endpoints.BASE_URL}latest-news?${newsfeedParams}`)
+      await fetch(`${Endpoints.BASE_URL}latest-news?${newsfeedParams}`, {
+        next: { revalidate: 60 },
+      })
     ).json();
 
-    
     const finalCategoryData = [
       {
         category_id: 0,
@@ -39,7 +42,7 @@ const fetchData = async () => {
     let filterData = finalCategoryData.map((item, index) => {
       return { ...item, isActive: index === 0 ? true : false };
     });
-    
+
     let latestNewsData = newsRes?.map((item) => ({
       ...item,
       category: formatCategory(item?.category),
