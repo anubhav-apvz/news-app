@@ -1,11 +1,10 @@
 'use client'
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Category from "./Category";
 import NewsCard from "../NewsCard";
 
 const ClientWrapper = ({ category, feedData }) => {
-  
   const handleCategoryChange = (e) => {
     console.log(e);
   }

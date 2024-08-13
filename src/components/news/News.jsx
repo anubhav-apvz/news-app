@@ -1,8 +1,9 @@
+
 import Category from "./Category";
 import NewsCard from "../NewsCard";
 import ClientWrapper from "./ClientWrapper";
 
-const News = ({category, feedData}) => {
+const News = ({ category, feedData }) => {
   // console.log('in news --> ', feedData);
 
   return (
@@ -15,7 +16,7 @@ const News = ({category, feedData}) => {
       </div>
 
       {/* This is a client wrappe component where user will interact */}
-      <ClientWrapper category={category} feedData={feedData}/>
+      <ClientWrapper category={category} feedData={feedData} />
     </div>
   );
 };
