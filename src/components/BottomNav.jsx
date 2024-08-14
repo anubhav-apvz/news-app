@@ -13,7 +13,7 @@ const BottomNav = () => {
   const [value, setValue] = useState(0);
   const router = useRouter();
   useEffect(() => {
-    router.push(`/home`);
+    router.push(`/main/home`);
   }, [])
   return (
     <div className="sticky bottom-0">
@@ -32,7 +32,7 @@ const BottomNav = () => {
             selected: "text-primary",
           }}
           component={Link}
-          href="/home"
+          href="/main/home"
         />
         <BottomNavigationAction
           label="News"
@@ -42,7 +42,7 @@ const BottomNav = () => {
             selected: "text-primary",
           }}
           component={Link}
-          href="/news"
+          href="/main/news"
         />
         <BottomNavigationAction
           label="Subscribe"
@@ -52,7 +52,7 @@ const BottomNav = () => {
             selected: "text-primary",
           }}
           component={Link}
-          href="/subscribe"
+          href="/main/subscribe"
         />
       </BottomNavigation>
     </div>

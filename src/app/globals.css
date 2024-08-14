@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "Figtree";
+  src: url("/public/fonts/Figtree-Regular.ttf") format("ttf");
+  font-style: normal;
+}
+
+body {
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+  font-family: "Figtree", sans-serif;
+}

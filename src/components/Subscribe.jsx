@@ -237,7 +237,7 @@ const Subscribe = ({ subscriptionData }) => {
                   }
                 >
                   Subscribed
-                  <img src="check.svg" alt="check" />
+                  <img src="/check.svg" alt="check" />
                 </button>
               ) : (
                 <button
@@ -269,7 +269,7 @@ const Subscribe = ({ subscriptionData }) => {
           <div className="flex flex-col gap-[28px]">
             <div className="flex flex-col gap-[20px]">
               <div className="flex flex-row items-center justify-center">
-                <img src="check_circle.svg" alt="tick" />
+                <img src="/check_circle.svg" alt="tick" />
               </div>
               <div className="flex flex-col gap-[8px] text-center">
                 <span className="text-title3 font-bold-700 text-title-large-1">
@@ -309,7 +309,7 @@ const Subscribe = ({ subscriptionData }) => {
                   className="inline-flex flex-grow py-[12px] px-[24px] text-white bg-primary justify-center items-center gap-[12px] rounded-lg"
                   onClick={handleClose}
                 >
-                  <img src="external-link.svg" alt="share" />
+                  <img src="/external-link.svg" alt="share" />
                   <span className="text-white font-semiBold text-title-8">
                     Open chats
                   </span>

@@ -5,7 +5,7 @@ const Home = ({ feedData, mySubscription, popularCategories, userEmail }) => {
     <div className="flex flex-col w-full bg-white">
       {/* HEADER */}
       <div className="flex flex-row py-[8px] px-[16px] items-center justify-start">
-        <img src="logo.svg" alt="header" />
+        <img src="/logo.svg" alt="header" />
       </div>
 
       {/* WELCOME */}

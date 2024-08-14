@@ -52,26 +52,26 @@ export function cleanObject(obj) {
 
 
 export const categoryMappings = [
-  { name: 'Planen & Bauen', icon: 'Planning & Building.svg' }, // planning and building
-  { name: 'Bibliotheken', icon: 'Libraries.svg' }, // library
-  { name: 'Bildung', icon: 'Education.svg' }, // Education
-  { name: 'Bürgerdienste', icon: 'Citizen Services.svg' }, // citizen services
-  { name: 'Freizeit & Sport', icon: 'Leisure & Sports.svg' }, // Leisure and Sports
-  { name: 'Gesundheit & Beratung', icon: 'Health & Counseling.svg' }, // Health and Counselling
-  { name: 'Familien & Kinder', icon: 'Families & Children.svg' }, // families and children
-  { name: 'Klima & Umwelt', icon: 'Climate & Environment.svg' }, // climate and environment
-  { name: 'Stadtarchiv', icon: 'City Archive.svg' }, // city archive
-  { name: 'Veranstaltungen', icon: 'City events.svg' }, // events
-  { name: 'Welterbe SchUM-Stätten', icon: 'SchUM World Heritage Sites.svg' }, // SchUM World Heritage Sites
-  { name: 'Wirtschaft', icon: 'Business.svg' }, // business
-  { name: 'Kultur', icon: 'Culture.svg' }, // culture
-  { name: 'Luther', icon: 'Luther.svg' }, // luther
-  { name: 'Musikschule', icon: 'Music School.svg' }, // Music School
-  { name: 'Senioren', icon: 'Senior citizens.svg' }, // senior citizen
-  { name: 'Stadtteile', icon: 'health_and_advice.svg' }, // Neighbourhood
-  { name: 'Tourismus', icon: 'Tourism & Events.svg' }, // Tourism and events
-  { name: 'Verkehrsinfos', icon: 'Traffic information.svg' }, // traffic information
-  { name: 'Wahlen', icon: 'Elections.svg' }, // elections
+  { name: 'Planen & Bauen', icon: '/Planning & Building.svg' }, // planning and building
+  { name: 'Bibliotheken', icon: '/Libraries.svg' }, // library
+  { name: 'Bildung', icon: '/Education.svg' }, // Education
+  { name: 'Bürgerdienste', icon: '/Citizen Services.svg' }, // citizen services
+  { name: 'Freizeit & Sport', icon: '/Leisure & Sports.svg' }, // Leisure and Sports
+  { name: 'Gesundheit & Beratung', icon: '/Health & Counseling.svg' }, // Health and Counselling
+  { name: 'Familien & Kinder', icon: '/Families & Children.svg' }, // families and children
+  { name: 'Klima & Umwelt', icon: '/Climate & Environment.svg' }, // climate and environment
+  { name: 'Stadtarchiv', icon: '/City Archive.svg' }, // city archive
+  { name: 'Veranstaltungen', icon: '/City events.svg' }, // events
+  { name: 'Welterbe SchUM-Stätten', icon: '/SchUM World Heritage Sites.svg' }, // SchUM World Heritage Sites
+  { name: 'Wirtschaft', icon: '/Business.svg' }, // business
+  { name: 'Kultur', icon: '/Culture.svg' }, // culture
+  { name: 'Luther', icon: '/Luther.svg' }, // luther
+  { name: 'Musikschule', icon: '/Music School.svg' }, // Music School
+  { name: 'Senioren', icon: '/Senior citizens.svg' }, // senior citizen
+  { name: 'Stadtteile', icon: '/health_and_advice.svg' }, // Neighbourhood
+  { name: 'Tourismus', icon: '/Tourism & Events.svg' }, // Tourism and events
+  { name: 'Verkehrsinfos', icon: '/Traffic information.svg' }, // traffic information
+  { name: 'Wahlen', icon: '/Elections.svg' }, // elections
 ];
 
 

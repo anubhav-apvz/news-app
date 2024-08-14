@@ -1,6 +1,15 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const NewsCard = ({ feedData }) => {
+  const router = useRouter();
+
+  const handleOnNewsClick = (e) => {
+    router.push(`/view-news/${encodeURIComponent(e)}`);
+  };
+
   return (
     <>
       {feedData && feedData.length > 0 ? (
@@ -8,9 +17,9 @@ const NewsCard = ({ feedData }) => {
           <div
             key={index}
             className="flex flex-row gap-[12px] items-center"
-            // onClick={() => {
-            //   handleNavigation(item?.link);
-            // }}
+            onClick={() => {
+              handleOnNewsClick(item?.link);
+            }}
           >
             <div className="flex flex-col w-[80%] gap-[8px]">
               <span className="text-title3 font-semiBold text-title-tight">
@@ -42,7 +51,12 @@ const NewsCard = ({ feedData }) => {
               </span>
             </div>
             <div>
-              <img className="rounded-md" src={item?.image ? item?.image : "culture.png"} alt="placeholder" style={{width: '117px', height: '78px'}}/>
+              <img
+                className="rounded-md"
+                src={item?.image ? item?.image : "/culture.png"}
+                alt="placeholder"
+                style={{ width: "117px", height: "78px" }}
+              />
             </div>
           </div>
         ))
