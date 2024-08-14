@@ -1,10 +1,11 @@
-'use client'
+"use client";
 
 import { mapCategoryIcons } from "@/services/common";
 import Endpoints from "@/services/constants";
 import React, { useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import { GET } from "@/services/api";
+import { subscriptionRevalidationHome } from "@/app/action";
 
 const style = {
   position: "absolute",
@@ -18,48 +19,18 @@ const style = {
   borderRadius: "16px",
 };
 
-const PopularCategories = () => {
+const PopularCategories = ({ popularCategoriesData, userEmail }) => {
   const [popularSubscription, setPopularSubscription] = useState([]);
-  const userEmail = "prajjwal@kobil.com";
   const [categoryName, setCategoryName] = useState("");
   const [modalHeader, setModalHeader] = useState("");
   const [isSubscribe, setIsSubscribe] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const fetchData = async () => {
-    try {
-      const categoryParams = new URLSearchParams({
-        page: 1,
-        size: 200,
-        popular: true,
-        user_id: userEmail,
-      });
-
-      const mySubscriptionRes = await (
-        await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`)
-      ).json();
-
-      let mySubscriptionData = [];
-      if (mySubscriptionRes) {
-        mySubscriptionData = mySubscriptionRes?.map((item) => ({
-          ...item,
-          image: mapCategoryIcons(item?.category_name),
-        }));
-        setPopularSubscription(mySubscriptionData);
-      } else {
-        setPopularSubscription(mySubscriptionData);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-
   useEffect(() => {
-    const initialize = async () => {
-      await fetchData();
-    };
-    initialize();
-  }, []);
+    if (popularCategoriesData) {
+      setPopularSubscription(popularCategoriesData);
+    }
+  }, [popularCategoriesData]);
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
     console.log(isSubscribe, userEmail, categoryId);
@@ -92,9 +63,8 @@ const PopularCategories = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = async () => {
     setOpen(false);
-    await fetchData();
+    subscriptionRevalidationHome();
   };
-
 
   return (
     <div className="flex flex-col py-[16px] bg-bg-secondary gap-[20px]">

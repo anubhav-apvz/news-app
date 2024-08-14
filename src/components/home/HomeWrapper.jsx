@@ -3,7 +3,12 @@ import NewsCard from "../NewsCard";
 import MySubscription from "./MySubscription";
 import PopularCategories from "./PopularCategories";
 
-const HomeWrapper = ({feedData}) => {
+const HomeWrapper = ({
+  feedData,
+  mySubscription,
+  popularCategories,
+  userEmail,
+}) => {
   return (
     <>
       {/* Latest News */}
@@ -17,13 +22,19 @@ const HomeWrapper = ({feedData}) => {
           </span>
         </div>
         <div className="flex flex-col p-[16px] bg-white rounded-xl gap-[16px]">
-          <NewsCard feedData={feedData}/>
+          <NewsCard feedData={feedData} />
         </div>
       </div>
 
-      <MySubscription />
+      <MySubscription
+        mySubscriptionData={mySubscription}
+        userEmail={userEmail}
+      />
 
-      <PopularCategories />
+      <PopularCategories
+        popularCategoriesData={popularCategories}
+        userEmail={userEmail}
+      />
     </>
   );
 };

@@ -1,5 +1,6 @@
 "use client";
 
+import { subscriptionRevalidationHome } from "@/app/action";
 import { GET } from "@/services/api";
 import { mapCategoryIcons } from "@/services/common";
 import Endpoints from "@/services/constants";
@@ -17,41 +18,12 @@ const style = {
   borderRadius: "16px",
 };
 
-const MySubscription = () => {
+const MySubscription = ({ mySubscriptionData, userEmail }) => {
   const [mySubscription, setMySubscription] = useState([]);
-  const userEmail = "prajjwal@kobil.com";
   const [categoryName, setCategoryName] = useState("");
   const [modalHeader, setModalHeader] = useState("");
   const [isSubscribe, setIsSubscribe] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const fetchData = async () => {
-    try {
-      const categoryParams = new URLSearchParams({
-        page: 1,
-        size: 200,
-        subscribe: true,
-        user_id: userEmail,
-      });
-
-      const mySubscriptionRes = await (
-        await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`)
-      ).json();
-
-      let mySubscriptionData = [];
-      if (mySubscriptionRes) {
-        mySubscriptionData = mySubscriptionRes?.map((item) => ({
-          ...item,
-          image: mapCategoryIcons(item?.category_name),
-        }));
-        setMySubscription(mySubscriptionData);
-      } else {
-        setMySubscription(mySubscriptionData);
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
     console.log(isSubscribe, userEmail, categoryId);
@@ -84,15 +56,14 @@ const MySubscription = () => {
   const handleOpen = () => setOpen(true);
   const handleClose = async () => {
     setOpen(false);
-    await fetchData();
+    subscriptionRevalidationHome();
   };
 
   useEffect(() => {
-    const initialize = async () => {
-      await fetchData();
-    };
-    initialize();
-  }, []);
+    if (mySubscriptionData) {
+      setMySubscription(mySubscriptionData);
+    }
+  }, [mySubscriptionData]);
 
   return (
     <div className="flex flex-col py-[16px] bg-bg-secondary gap-[20px]">

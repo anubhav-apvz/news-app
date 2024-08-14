@@ -44,8 +44,7 @@ const fetchData = async () => {
     let latestNewsData = newsRes?.map((item) => ({
       ...item,
       category: formatCategory(item?.category),
-      pubDate: convertDate(item?.pubDate),
-      image: "culture.png",
+      pubDate: convertDate(item?.pubDate)
     }));
 
     return [filterData, latestNewsData];

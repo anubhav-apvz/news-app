@@ -42,7 +42,7 @@ const NewsCard = ({ feedData }) => {
               </span>
             </div>
             <div>
-              <img className="rounded-md" src={item?.image} alt="placeholder" />
+              <img className="rounded-md" src={item?.image ? item?.image : "culture.png"} alt="placeholder" style={{width: '117px', height: '78px'}}/>
             </div>
           </div>
         ))

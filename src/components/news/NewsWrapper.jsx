@@ -5,6 +5,7 @@ import Category from "./Category";
 import NewsCard from "../NewsCard";
 
 const NewsWrapper = ({ category, feedData }) => {
+  console.log('feed data in news', feedData)
   const [cat, setCat] = useState(category);
   const [filteredFeedData, setFilteredFeedData] = useState(feedData);
 
