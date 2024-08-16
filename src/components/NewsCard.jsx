@@ -7,7 +7,11 @@ const NewsCard = ({ feedData }) => {
   const router = useRouter();
 
   const handleOnNewsClick = (e) => {
-    router.push(`/view-news/${encodeURIComponent(e)}`);
+    console.log(e);
+    const query = new URLSearchParams({
+      link: e,
+    }).toString();
+    router.push(`/view-news?${query}`);
   };
 
   return (
