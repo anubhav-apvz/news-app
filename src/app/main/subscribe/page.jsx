@@ -2,10 +2,11 @@ import Subscribe from "@/components/Subscribe";
 import React from "react";
 import { cleanObject, mapCategoryIcons } from "@/services/common";
 import Endpoints from "@/services/constants";
+import { getUserSession } from "@/lib/session";
 
-const fetchData = async () => {
+const fetchData = async (userEmail) => {
   try {
-    const userEmail = "prajjwal@kobil.com";
+    // const userEmail = "prajjwal@kobil.com";
     const payload = new URLSearchParams({
       page: 1,
       size: 200,
@@ -31,10 +32,23 @@ const fetchData = async () => {
   }
 };
 
+const getUserDetails = async (key) => {
+  try {
+    let data = await getUserSession(key);
+    return data;
+  } catch (e) {
+    return null;
+  }
+};
+
 const page = async () => {
-  const data = await fetchData();
+  let data = [];
+  const userEmail = (await getUserDetails('session'))?.userDetails?.email;
+  if (userEmail) {
+    data = await fetchData(userEmail);
+  }
   return (
-    <Subscribe subscriptionData={data} />
+    <Subscribe subscriptionData={data} userEmail={userEmail}/>
   );
 };
 

@@ -1,4 +1,7 @@
+
 import Home from "@/components/Home";
+import SetSession from "@/components/SetSession";
+import { getUserSession } from "@/lib/session";
 import {
   convertDate,
   formatCategory,
@@ -6,7 +9,7 @@ import {
 } from "@/services/common";
 import Endpoints from "@/services/constants";
 
-const fetchFeedData = async (userEmail) => {
+const fetchFeedData = async () => {
   try {
     const newsRes = await (
       await fetch(`${Endpoints.BASE_URL}latest-news`)
@@ -71,18 +74,30 @@ const fetchUserData = async (userEmail) => {
   }
 };
 
-const HomePage = async () => {
-  const userEmail = "prajjwal@kobil.com";
-  const feedData = await fetchFeedData(userEmail);
+const getUserDetails = async (key) => {
+  try {
+    let data = await getUserSession(key);
+    return data;
+  } catch (e) {
+    return null;
+  }
+};
+
+const HomePage = async ({ searchParams }) => {
+  const userEmail = (await getUserDetails('session'))?.userDetails?.email;
+  // const userEmail = "prajjwal@kobil.com";
+  const feedData = await fetchFeedData();
   const userData = await fetchUserData(userEmail);
-  // localStorage.setItem("user", userEmail)
   return (
-    <Home
-      feedData={feedData}
-      mySubscription={userData ? userData?.mySubscriptionData : []}
-      popularCategories={userData ? userData?.popularCategoriesData : []}
-      userEmail={userEmail}
-    />
+    <>
+      { !userEmail && <SetSession userParams={searchParams} />}
+      <Home
+        feedData={feedData}
+        mySubscription={userData ? userData?.mySubscriptionData : []}
+        popularCategories={userData ? userData?.popularCategoriesData : []}
+        userEmail={userEmail}
+      />
+    </>
   );
 };
 

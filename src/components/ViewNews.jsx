@@ -17,7 +17,7 @@ const ViewNews = ({ scrapedData }) => {
           alt="back"
           onClick={handleGoBack}
         />
-        <img className="cursor-pointer" src="/share.svg" alt="share" />
+        {/* <img className="cursor-pointer" src="/share.svg" alt="share" /> */}
       </div>
       <div className="flex flex-col p-[16px] gap-[16px]">
         <span className="text-title3 font-semiBold text-title-3">

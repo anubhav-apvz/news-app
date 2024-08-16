@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useEffect, useState } from "react";
 import Category from "./Category";
@@ -29,7 +29,7 @@ const NewsWrapper = ({ category, feedData }) => {
       }
     });
     setFilteredFeedData(filteredData);
-  }
+  };
 
   const handleCategoryChange = (index) => {
     setCat((prev) =>
@@ -38,32 +38,22 @@ const NewsWrapper = ({ category, feedData }) => {
         isActive: i === index,
       }))
     );
-    filterFeedOnCategoryChange(cat[index]); 
-  }
+    filterFeedOnCategoryChange(cat[index]);
+  };
 
-  useEffect(() => {}, [cat])
+  useEffect(() => {}, [cat]);
 
   return (
     <>
       {/* Filters */}
       <div className="flex flex-row ml-[16px] my-[16px] gap-[8px] overflow-x-auto pb-[10px]">
         {/* Category Filter Herer */}
-        <Category filters={cat} onCategoryChange={handleCategoryChange}/>
+        <Category filters={cat} onCategoryChange={handleCategoryChange} />
       </div>
 
       {/* Latest News */}
-      <div className="flex flex-col px-[16px] bg-bg-secondary gap-[12px]">
-        <div className="flex flex-row items-center justify-between">
-          <span className="text-title3 font-semiBold text-title-large">
-            Latest News
-          </span>
-        </div>
 
-        {/* News Cards */}
-        <div className="flex flex-col p-[16px] bg-white rounded-xl gap-[16px]">
-          <NewsCard feedData={filteredFeedData} />
-        </div>
-      </div>
+      <NewsCard feedData={filteredFeedData} />
     </>
   );
 };

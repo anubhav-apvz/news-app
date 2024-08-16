@@ -19,7 +19,7 @@ const style = {
   borderRadius: "16px",
 };
 
-const Subscribe = ({ subscriptionData }) => {
+const Subscribe = ({ subscriptionData, userEmail }) => {
   // const navigate = useNavigate();
   // const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -44,7 +44,7 @@ const Subscribe = ({ subscriptionData }) => {
   ]);
 
   // const userEmail = JSON.parse(localStorage.getItem("userEmail"));
-  const userEmail = "prajjwal@kobil.com";
+  // const userEmail = "prajjwal@kobil.com";
 
   const fetchData = async () => {
     try {
@@ -129,7 +129,7 @@ const Subscribe = ({ subscriptionData }) => {
     if (isSub) {
       setModalHeader("Subscribed succesfully!");
       let res = await GET(
-        `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}`,
+        `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
         {}
       );
 
@@ -147,7 +147,7 @@ const Subscribe = ({ subscriptionData }) => {
     } else {
       setModalHeader("Unsubscribed succesfully!");
       let res = await GET(
-        `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}`,
+        `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
         {}
       );
 

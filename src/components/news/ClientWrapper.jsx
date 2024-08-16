@@ -6,7 +6,7 @@ import NewsCard from "../NewsCard";
 
 const ClientWrapper = ({ category, feedData }) => {
   const handleCategoryChange = (e) => {
-    console.log(e);
+    
   }
 
   return (

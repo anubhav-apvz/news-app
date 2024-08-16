@@ -12,9 +12,9 @@ import { useEffect, useState } from "react";
 const BottomNav = () => {
   const [value, setValue] = useState(0);
   const router = useRouter();
-  useEffect(() => {
-    router.push(`/main/home`);
-  }, [])
+  // useEffect(() => {
+  //   router.push(`/main/home`);
+  // }, [])
   return (
     <div className="sticky bottom-0">
       <BottomNavigation

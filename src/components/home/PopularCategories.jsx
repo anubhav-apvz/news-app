@@ -33,27 +33,23 @@ const PopularCategories = ({ popularCategoriesData, userEmail }) => {
   }, [popularCategoriesData]);
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
-    console.log(isSubscribe, userEmail, categoryId);
     setIsSubscribe(isSub);
-    console.log(isSub);
     setCategoryName(catName);
     if (isSub) {
       setModalHeader("Subscribed succesfully!");
       let res = await GET(
-        `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}`,
+        `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
         {}
       );
-      console.log("subscribe -> ", res);
       if (res) {
         handleOpen();
       }
     } else {
       setModalHeader("Unsubscribed succesfully!");
       let res = await GET(
-        `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}`,
+        `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
         {}
       );
-      console.log("unsubscribe -> ", res);
       if (res) {
         handleOpen();
       }
