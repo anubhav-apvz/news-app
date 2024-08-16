@@ -276,9 +276,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-
-        <span>subscribed</span>
-        {/* <Box sx={style}>
+        <Box sx={style}>
           <div className="flex flex-col gap-[28px]">
             <div className="flex flex-col gap-[20px]">
               <div className="flex flex-row items-center justify-center">
@@ -330,7 +328,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
               )}
             </div>
           </div>
-        </Box> */}
+        </Box>
       </Modal>
     </div>
   );
