@@ -16,6 +16,7 @@ const style = {
   boxShadow: 24,
   padding: "28px",
   borderRadius: "16px",
+  zIndex: 999999
 };
 
 const MySubscription = ({ mySubscriptionData, userEmail }) => {
