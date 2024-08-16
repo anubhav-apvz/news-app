@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation';
 
 export default function Home() {
   redirect('/main/home');
-  // return null;
+
+// redirect("http://localhost:3129/login")
+ // return null;
   // return <></>
 }
