@@ -75,6 +75,7 @@ const HomePage = async () => {
   const userEmail = "prajjwal@kobil.com";
   const feedData = await fetchFeedData(userEmail);
   const userData = await fetchUserData(userEmail);
+  // localStorage.setItem("user", userEmail)
   return (
     <Home
       feedData={feedData}
