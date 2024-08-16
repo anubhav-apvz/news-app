@@ -12,12 +12,13 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 343,
+  width: "90vw",  // Use vw or percentage for better responsiveness
+  maxWidth: "343px",
   bgcolor: "background.paper",
   boxShadow: 24,
   padding: "28px",
   borderRadius: "16px",
-  zIndex: 999999
+  zIndex: 999999,
 };
 
 const Subscribe = ({ subscriptionData, userEmail }) => {
@@ -36,6 +37,15 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
       setFilteredSubscriptionData(subscriptionData);
     }
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [open]);
+  
 
   const [filters, setFilters] = useState([
     { id: 0, name: "Explore", isActive: true },
