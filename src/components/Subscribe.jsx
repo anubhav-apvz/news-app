@@ -6,13 +6,14 @@ import { GET } from "@/services/api";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { subscriptionRevalidation } from "@/app/action";
+import useSWR from "swr";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "90vw",  // Use vw or percentage for better responsiveness
+  width: "90vw", // Use vw or percentage for better responsiveness
   maxWidth: "343px",
   bgcolor: "background.paper",
   boxShadow: 24,
@@ -45,7 +46,6 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
       document.body.style.overflow = "unset";
     }
   }, [open]);
-  
 
   const [filters, setFilters] = useState([
     { id: 0, name: "Explore", isActive: true },
@@ -134,10 +134,55 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
     subscriptionRevalidation();
   };
 
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
-    handleOpen();
-    // setIsSubscribe(isSub);
-    // setCategoryName(catName);
+    // handleOpen();
+    setIsSubscribe(isSub);
+    setCategoryName(catName);
+    const subscribeParams = new URLSearchParams({
+      user_id: userEmail,
+      category_id: categoryId,
+      name: catName,
+    });
+    if (isSub) {
+      const { data, error } = useSWR(
+        `${Endpoints.BASE_URL}subscribe?${subscribeParams}`,
+        fetcher
+      );
+      if (data) {
+        setModalHeader("Subscribed succesfully!");
+        handleOpen();
+        setFilteredSubscriptionData((prevData) => {
+          return prevData.map((item) => {
+            if (item.categoryId === categoryId)
+              return { ...item, subscribed: true };
+
+            return item;
+          });
+        });
+      } else {
+        console.log(error);
+      }
+    } else {
+      const { data, error } = useSWR(
+        `${Endpoints.BASE_URL}unsubscribe?${subscribeParams}`,
+        fetcher
+      );
+      if (data) {
+        setModalHeader("Unsubscribed succesfully!");
+        handleOpen();
+        setFilteredSubscriptionData((prevData) => {
+          return prevData.map((item) => {
+            if (item.categoryId === categoryId)
+              return { ...item, subscribed: false };
+            return item;
+          });
+        });
+      } else {
+        console.log(error);
+      }
+    }
     // if (isSub) {
     //   setModalHeader("Subscribed succesfully!");
     //   let res = await GET(
