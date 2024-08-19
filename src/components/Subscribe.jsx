@@ -5,7 +5,7 @@ import Endpoints from "@/services/constants";
 import { GET } from "@/services/api";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { subscriptionRevalidation } from "@/app/action";
+import { subscribeData, subscriptionRevalidation, unSubscribeData } from "@/app/action";
 import useSWR from "swr";
 
 const style = {
@@ -140,85 +140,22 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
     // handleOpen();
     setIsSubscribe(isSub);
     setCategoryName(catName);
-    const subscribeParams = new URLSearchParams({
-      user_id: userEmail,
-      category_id: categoryId,
-      name: catName,
-    });
     if (isSub) {
-      const { data, error } = useSWR(
-        `${Endpoints.BASE_URL}subscribe?${subscribeParams}`,
-        fetcher
-      );
-      if (data) {
-        setModalHeader("Subscribed succesfully!");
-        handleOpen();
-        setFilteredSubscriptionData((prevData) => {
-          return prevData.map((item) => {
-            if (item.categoryId === categoryId)
-              return { ...item, subscribed: true };
-
-            return item;
-          });
-        });
-      } else {
-        console.log(error);
+      setModalHeader("Subscribed succesfully!");
+      let subResponse = subscribeData(userEmail, categoryId, catName);
+      if (subResponse) {
+        // console.log('sub response -- >>', subResponse)
+        handleOpen()
       }
     } else {
-      const { data, error } = useSWR(
-        `${Endpoints.BASE_URL}unsubscribe?${subscribeParams}`,
-        fetcher
-      );
-      if (data) {
-        setModalHeader("Unsubscribed succesfully!");
-        handleOpen();
-        setFilteredSubscriptionData((prevData) => {
-          return prevData.map((item) => {
-            if (item.categoryId === categoryId)
-              return { ...item, subscribed: false };
-            return item;
-          });
-        });
-      } else {
-        console.log(error);
+      // console.log('unsub called')
+      setModalHeader("Unsubscribed succesfully!");
+      let unSubResponse = unSubscribeData(userEmail, categoryId, catName);
+      if (unSubResponse) {
+        // console.log('unsub response -- >>', unSubResponse)
+        handleOpen()
       }
     }
-    // if (isSub) {
-    //   setModalHeader("Subscribed succesfully!");
-    //   let res = await GET(
-    //     `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-    //     {}
-    //   );
-
-    //   if (res) {
-    //     handleOpen();
-    //     setFilteredSubscriptionData((prevData) => {
-    //       return prevData.map((item) => {
-    //         if (item.categoryId === categoryId)
-    //           return { ...item, subscribed: true };
-
-    //         return item;
-    //       });
-    //     });
-    //   }
-    // } else {
-    //   setModalHeader("Unsubscribed succesfully!");
-    //   let res = await GET(
-    //     `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-    //     {}
-    //   );
-
-    //   if (res) {
-    //     handleOpen();
-    //     setFilteredSubscriptionData((prevData) => {
-    //       return prevData.map((item) => {
-    //         if (item.categoryId === categoryId)
-    //           return { ...item, subscribed: false };
-    //         return item;
-    //       });
-    //     });
-    //   }
-    // }
   };
 
   return (

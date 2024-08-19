@@ -5,7 +5,7 @@ import Endpoints from "@/services/constants";
 import React, { useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import { GET } from "@/services/api";
-import { subscriptionRevalidationHome } from "@/app/action";
+import { subscribeData, subscriptionRevalidationHome, unSubscribeData } from "@/app/action";
 
 const style = {
   position: "absolute",
@@ -38,21 +38,18 @@ const PopularCategories = ({ popularCategoriesData, userEmail }) => {
     setCategoryName(catName);
     if (isSub) {
       setModalHeader("Subscribed succesfully!");
-      let res = await GET(
-        `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-        {}
-      );
-      if (res) {
-        handleOpen();
+      let subResponse = subscribeData(userEmail, categoryId, catName);
+      if (subResponse) {
+        // console.log('sub response -- >>', subResponse)
+        handleOpen()
       }
     } else {
+      // console.log('unsub called')
       setModalHeader("Unsubscribed succesfully!");
-      let res = await GET(
-        `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-        {}
-      );
-      if (res) {
-        handleOpen();
+      let unSubResponse = unSubscribeData(userEmail, categoryId, catName);
+      if (unSubResponse) {
+        // console.log('unsub response -- >>', unSubResponse)
+        handleOpen()
       }
     }
   };

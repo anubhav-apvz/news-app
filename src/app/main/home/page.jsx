@@ -85,7 +85,7 @@ const getUserDetails = async (key) => {
 
 const HomePage = async ({ searchParams }) => {
   const userEmail = (await getUserDetails('session'))?.userDetails?.email;
-  // const userEmail = "prajjwal@kobil.com";
+  // const userEmail = "temmuz.aslan@kobil.com";
   const feedData = await fetchFeedData();
   const userData = await fetchUserData(userEmail);
   return (

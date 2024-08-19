@@ -1,9 +1,6 @@
 "use client";
 
-import { subscriptionRevalidationHome } from "@/app/action";
-import { GET } from "@/services/api";
-import { mapCategoryIcons } from "@/services/common";
-import Endpoints from "@/services/constants";
+import { subscribeData, subscriptionRevalidationHome, unSubscribeData } from "@/app/action";
 import { Box, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 const style = {
@@ -16,7 +13,7 @@ const style = {
   boxShadow: 24,
   padding: "28px",
   borderRadius: "16px",
-  zIndex: 999999
+  zIndex: 999999,
 };
 
 const MySubscription = ({ mySubscriptionData, userEmail }) => {
@@ -31,20 +28,17 @@ const MySubscription = ({ mySubscriptionData, userEmail }) => {
     setCategoryName(catName);
     if (isSub) {
       setModalHeader("Subscribed succesfully!");
-      let res = await GET(
-        `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-        {}
-      );
-      if (res) {
+      let subResponse = subscribeData(userEmail, categoryId, catName);
+      if (subResponse) {
+        // console.log("sub response -- >>", subResponse);
         handleOpen();
       }
     } else {
+      // console.log("unsub called");
       setModalHeader("Unsubscribed succesfully!");
-      let res = await GET(
-        `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-        {}
-      );
-      if (res) {
+      let unSubResponse = unSubscribeData(userEmail, categoryId, catName);
+      if (unSubResponse) {
+        // console.log("unsub response -- >>", unSubResponse);
         handleOpen();
       }
     }
