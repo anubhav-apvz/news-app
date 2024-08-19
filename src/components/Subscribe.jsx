@@ -135,44 +135,45 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   };
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
-    setIsSubscribe(isSub);
-    setCategoryName(catName);
-    if (isSub) {
-      setModalHeader("Subscribed succesfully!");
-      let res = await GET(
-        `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-        {}
-      );
+    handleOpen();
+    // setIsSubscribe(isSub);
+    // setCategoryName(catName);
+    // if (isSub) {
+    //   setModalHeader("Subscribed succesfully!");
+    //   let res = await GET(
+    //     `${Endpoints.SUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
+    //     {}
+    //   );
 
-      if (res) {
-        handleOpen();
-        setFilteredSubscriptionData((prevData) => {
-          return prevData.map((item) => {
-            if (item.categoryId === categoryId)
-              return { ...item, subscribed: true };
+    //   if (res) {
+    //     handleOpen();
+    //     setFilteredSubscriptionData((prevData) => {
+    //       return prevData.map((item) => {
+    //         if (item.categoryId === categoryId)
+    //           return { ...item, subscribed: true };
 
-            return item;
-          });
-        });
-      }
-    } else {
-      setModalHeader("Unsubscribed succesfully!");
-      let res = await GET(
-        `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
-        {}
-      );
+    //         return item;
+    //       });
+    //     });
+    //   }
+    // } else {
+    //   setModalHeader("Unsubscribed succesfully!");
+    //   let res = await GET(
+    //     `${Endpoints.UNSUBSCRIBE}?user_id=${userEmail}&category_id=${categoryId}&name=${catName}`,
+    //     {}
+    //   );
 
-      if (res) {
-        handleOpen();
-        setFilteredSubscriptionData((prevData) => {
-          return prevData.map((item) => {
-            if (item.categoryId === categoryId)
-              return { ...item, subscribed: false };
-            return item;
-          });
-        });
-      }
-    }
+    //   if (res) {
+    //     handleOpen();
+    //     setFilteredSubscriptionData((prevData) => {
+    //       return prevData.map((item) => {
+    //         if (item.categoryId === categoryId)
+    //           return { ...item, subscribed: false };
+    //         return item;
+    //       });
+    //     });
+    //   }
+    // }
   };
 
   return (
@@ -270,7 +271,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
         ))}
       </div>
 
-      <Modal
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -329,7 +330,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
             </div>
           </div>
         </Box>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
