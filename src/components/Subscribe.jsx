@@ -271,7 +271,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
         ))}
       </div>
 
-      {/* <Modal
+      <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -330,7 +330,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
             </div>
           </div>
         </Box>
-      </Modal> */}
+      </Modal>
     </div>
   );
 };
