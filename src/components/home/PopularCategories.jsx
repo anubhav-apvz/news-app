@@ -83,7 +83,7 @@ const PopularCategories = ({ popularCategoriesData, userEmail }) => {
                   {item?.category_name}
                 </span>
                 <span className="text-text-secondary font-normal text-text-7">
-                  {item?.total_subscribers} subscribers
+                  {item?.total_subscribers} {item?.total_subscribers > 1 ? 'subscribers' : 'subscriber'}
                 </span>
               </div>
             </div>
@@ -156,7 +156,7 @@ const PopularCategories = ({ popularCategoriesData, userEmail }) => {
               </div>
             </div>
 
-            <div className="flex flex-row gap-[16px]">
+            <div className="flex flex-row justify-center gap-[16px]">
               <button
                 className="py-[12px] px-[24px] text-primary bg-custom-blue-100 items-center gap-[8px] rounded-lg"
                 onClick={handleClose}

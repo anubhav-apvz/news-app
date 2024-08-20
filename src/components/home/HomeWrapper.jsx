@@ -12,7 +12,7 @@ const HomeWrapper = ({
   return (
     <>
       {/* Latest News */}
-      <NewsCard feedData={feedData} />
+      <NewsCard feedData={feedData} isHome={true}/>
 
       <MySubscription
         mySubscriptionData={mySubscription}

@@ -1,9 +1,9 @@
 "use client";
 
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-const NewsCard = ({ feedData }) => {
+const NewsCard = ({ feedData, isHome = false }) => {
   const router = useRouter();
 
   const handleOnNewsClick = (e) => {
@@ -16,7 +16,7 @@ const NewsCard = ({ feedData }) => {
   return (
     <>
       <div className="flex flex-col px-[16px] bg-bg-secondary gap-[12px]">
-        <div className="flex flex-row items-center justify-between mt-[24px]">
+        <div className={`flex flex-row items-center justify-between ${isHome ? 'mt-[24px]' : ''}`}>
           <span className="text-title3 font-semiBold text-title-large">
             Latest News
           </span>

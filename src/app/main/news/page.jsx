@@ -1,14 +1,15 @@
 import News from "@/components/news/News";
+import { getUserSession } from "@/lib/session";
 import { convertDate, formatCategory } from "@/services/common";
 import Endpoints from "@/services/constants";
 import React from "react";
 
-const fetchData = async () => {
+const fetchData = async ({userEmail}) => {
   try {
     const categoryParams = new URLSearchParams({
       page: 1,
       size: 200,
-      user_id: "prajjwal@kobil.com",
+      user_id: userEmail,
     });
 
     const newsfeedParams = new URLSearchParams({
@@ -53,8 +54,19 @@ const fetchData = async () => {
   }
 };
 
+const getUserDetails = async (key) => {
+  try {
+    let data = await getUserSession(key);
+    return data;
+  } catch (e) {
+    return null;
+  }
+};
+
 const page = async () => {
-  const data = await fetchData();
+  const userEmail = (await getUserDetails('session'))?.userDetails?.email;
+  // const userEmail = "temmuz.aslan@kobil.com";
+  const data = await fetchData(userEmail);
   return <News category={data[0]} feedData={data[1]} />;
 };
 

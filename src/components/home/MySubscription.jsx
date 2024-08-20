@@ -1,6 +1,10 @@
 "use client";
 
-import { subscribeData, subscriptionRevalidationHome, unSubscribeData } from "@/app/action";
+import {
+  subscribeData,
+  subscriptionRevalidationHome,
+  unSubscribeData,
+} from "@/app/action";
 import { Box, Modal } from "@mui/material";
 import React, { useEffect, useState } from "react";
 const style = {
@@ -62,9 +66,13 @@ const MySubscription = ({ mySubscriptionData, userEmail }) => {
         <span className="text-title3 font-semiBold text-title-large">
           My Subscription
         </span>
-        <span className="text-primary font-bold-500 text-title-small">
-          See all
-        </span>
+        {mySubscription?.length !== 0 ? (
+          <span className="text-primary font-bold-500 text-title-small">
+            See all
+          </span>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="flex flex-row pl-[16px] gap-[16px] overflow-x-auto">
         {mySubscription?.map((item, index) => (
@@ -79,7 +87,8 @@ const MySubscription = ({ mySubscriptionData, userEmail }) => {
                   {item?.category_name}
                 </span>
                 <span className="text-text-secondary font-normal text-text-7">
-                  {item?.total_subscribers} subscribers
+                  {item?.total_subscribers}{" "}
+                  {item?.total_subscribers > 1 ? "subscribers" : "subscriber"}
                 </span>
               </div>
             </div>
@@ -153,7 +162,7 @@ const MySubscription = ({ mySubscriptionData, userEmail }) => {
               </div>
             </div>
 
-            <div className="flex flex-row gap-[16px]">
+            <div className="flex flex-row justify-center gap-[16px]">
               <button
                 className="py-[12px] px-[24px] text-primary bg-custom-blue-100 items-center gap-[8px] rounded-lg"
                 onClick={handleClose}

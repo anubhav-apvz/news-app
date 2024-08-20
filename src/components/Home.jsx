@@ -4,7 +4,7 @@ const Home = ({ feedData, mySubscription, popularCategories, userEmail }) => {
   return (
     <div className="flex flex-col w-full bg-white">
       {/* HEADER */}
-      <div className="flex flex-row py-[8px] px-[16px] items-center justify-start">
+      <div className="sticky top-0 flex flex-row py-[8px] px-[16px] items-center justify-start z-10 bg-white">
         <img src="/logo.svg" alt="header" />
       </div>
 

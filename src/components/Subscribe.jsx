@@ -161,7 +161,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   return (
     <div className="flex flex-col w-full">
       {/* HEADER */}
-      <div className="flex flex-row py-[8px] px-[16px] h-[56px] items-center justify-center bg-white">
+      <div className="sticky top-0 flex flex-row py-[8px] px-[16px] h-[56px] items-center justify-center z-10 bg-white">
         <span className="text-title3 font-semiBold text-title-large-1">
           Subscribe Topics
         </span>
@@ -220,7 +220,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
             <div className="flex flex-col items-end justify-center">
               {item?.subscribed ? (
                 <button
-                  className="inline-flex max-w-[120px] self-center py-[4px] pl-[12px] pr-[18px] text-bg-booking-blue items-center gap-[8px] rounded-lg bg-custom-blue-100 border-[1.5px] border-bg-booking-blue xl:self-center"
+                  className="inline-flex max-w-[120px] self-center p-[4px] text-bg-booking-blue items-center gap-[8px] rounded-lg bg-custom-blue-100 border-[1.5px] border-bg-booking-blue xl:self-center"
                   onClick={() =>
                     handleSubscribe(
                       false,

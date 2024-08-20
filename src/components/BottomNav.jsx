@@ -6,17 +6,27 @@ import SubscribeIcon from "@/components/icons/SubscribeIcon";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const BottomNav = () => {
-  const [value, setValue] = useState(0);
-  const router = useRouter();
-  // useEffect(() => {
-  //   router.push(`/main/home`);
-  // }, [])
+  const [value, setValue] = useState(null);
+  const path = usePathname();
+
+  const getValueFromPath = (path) => {
+    if (path === '/main/home') return 0;
+    if (path === '/main/news') return 1;
+    if (path === '/main/subscribe') return 2;
+    return 0;
+  };
+
+  useEffect(() => {
+    if (path) {
+      setValue(getValueFromPath(path));
+    }
+  }, [path])
   return (
-    <div className="sticky bottom-0">
+    <div className="sticky bottom-0 p-[10px]">
       <BottomNavigation
         showLabels
         value={value}
