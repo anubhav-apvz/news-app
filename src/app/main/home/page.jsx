@@ -1,4 +1,3 @@
-
 import Home from "@/components/Home";
 import SetSession from "@/components/SetSession";
 import { getUserSession } from "@/lib/session";
@@ -12,7 +11,9 @@ import Endpoints from "@/services/constants";
 const fetchFeedData = async () => {
   try {
     const newsRes = await (
-      await fetch(`${Endpoints.BASE_URL}latest-news`)
+      await fetch(`${Endpoints.BASE_URL}latest-news`, {
+        cache: "force-cache",
+      })
     ).json();
 
     let latestNewsData = newsRes?.map((item) => ({
@@ -38,7 +39,8 @@ const fetchUserData = async (userEmail) => {
 
     const mySubscriptionRes = await (
       await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`, {
-        next: { tags: ["homeSubscription"] },
+        next: { tags: ["homeSubscription"]},
+        cache: "force-cache",
       })
     ).json();
 
@@ -58,7 +60,8 @@ const fetchUserData = async (userEmail) => {
       await fetch(
         `${Endpoints.BASE_URL}category-list?${popularCategoryParams}`,
         {
-          next: { tags: ["homeSubscription"] },
+          next: { tags: ["homeSubscription"]},
+          cache: "force-cache",
         }
       )
     ).json();
@@ -84,13 +87,13 @@ const getUserDetails = async (key) => {
 };
 
 const HomePage = async ({ searchParams }) => {
-  const userEmail = (await getUserDetails('session'))?.userDetails?.email;
+  const userEmail = (await getUserDetails("session"))?.userDetails?.email;
   // const userEmail = "temmuz.aslan@kobil.com";
   const feedData = await fetchFeedData();
   const userData = await fetchUserData(userEmail);
   return (
     <>
-      { !userEmail && <SetSession userParams={searchParams} />}
+      {!userEmail && <SetSession userParams={searchParams} />}
       <Home
         feedData={feedData}
         mySubscription={userData ? userData?.mySubscriptionData : []}

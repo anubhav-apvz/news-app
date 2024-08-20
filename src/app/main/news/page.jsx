@@ -20,12 +20,14 @@ const fetchData = async (userEmail) => {
     const categoryRes = await (
       await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`, {
         next: { revalidate: 900 },
+        cache: 'force-cache'
       })
     ).json();
 
     const newsRes = await (
       await fetch(`${Endpoints.BASE_URL}latest-news?${newsfeedParams}`, {
         next: { revalidate: 900 },
+        cache: 'force-cache'
       })
     ).json();
 

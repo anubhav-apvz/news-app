@@ -5,8 +5,13 @@ import Endpoints from "@/services/constants";
 import { GET } from "@/services/api";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { subscribeData, subscriptionRevalidation, unSubscribeData } from "@/app/action";
+import {
+  subscribeData,
+  subscriptionRevalidation,
+  unSubscribeData,
+} from "@/app/action";
 import useSWR from "swr";
+import { Oval } from "react-loader-spinner";
 
 const style = {
   position: "absolute",
@@ -29,6 +34,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   const [categoryName, setCategoryName] = useState("");
   const [modalHeader, setModalHeader] = useState("");
   const [isSubscribe, setIsSubscribe] = useState(false);
+  const [loading, setLoading] = useState({});
 
   // const [subscriptionData, setSubscriptionData] = useState([]);
   const [filteredSubscriptionData, setFilteredSubscriptionData] = useState();
@@ -88,7 +94,6 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
         image: mapCategoryIcons(item?.category_name),
       }));
       setFilteredSubscriptionData(popularData);
-      // setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -106,7 +111,6 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
               image: mapCategoryIcons(item?.category_name),
             }))
         );
-        // setSubscriptionData(popularData);
       } else {
         setFilteredSubscriptionData(
           subscriptionData.map((item) => ({
@@ -137,24 +141,21 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
-    // handleOpen();
+    setLoading((prev) => ({ ...prev, [categoryId]: true }));
     setIsSubscribe(isSub);
     setCategoryName(catName);
     if (isSub) {
       setModalHeader("Subscribed succesfully!");
-      let subResponse = subscribeData(userEmail, categoryId, catName);
-      if (subResponse) {
-        // console.log('sub response -- >>', subResponse)
-        handleOpen()
-      }
+      subscribeData(userEmail, categoryId, catName).then((subRes) => {
+        setLoading((prev) => ({ ...prev, [categoryId]: false }));
+        handleOpen();
+      });
     } else {
-      // console.log('unsub called')
       setModalHeader("Unsubscribed succesfully!");
-      let unSubResponse = unSubscribeData(userEmail, categoryId, catName);
-      if (unSubResponse) {
-        // console.log('unsub response -- >>', unSubResponse)
-        handleOpen()
-      }
+      unSubscribeData(userEmail, categoryId, catName).then((unSubRes) => {
+        setLoading((prev) => ({ ...prev, [categoryId]: false }));
+        handleOpen();
+      });
     }
   };
 
@@ -219,20 +220,42 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
             </div>
             <div className="flex flex-col items-end justify-center">
               {item?.subscribed ? (
-                <button
-                  className="inline-flex max-w-[120px] self-center p-[4px] text-bg-booking-blue items-center gap-[8px] rounded-lg bg-custom-blue-100 border-[1.5px] border-bg-booking-blue xl:self-center"
-                  onClick={() =>
-                    handleSubscribe(
-                      false,
-                      userEmail,
-                      item?.category_id,
-                      item?.category_name
-                    )
-                  }
-                >
-                  Subscribed
-                  <img src="/check.svg" alt="check" />
-                </button>
+                loading[item?.category_id] ? (
+                  <Oval
+                    visible={true}
+                    height="20"
+                    width="20"
+                    color="#192C61"
+                    ariaLabel="loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  <button
+                    className="inline-flex max-w-[120px] self-center p-[4px] text-bg-booking-blue items-center gap-[8px] rounded-lg bg-custom-blue-100 border-[1.5px] border-bg-booking-blue xl:self-center"
+                    onClick={() =>
+                      handleSubscribe(
+                        false,
+                        userEmail,
+                        item?.category_id,
+                        item?.category_name
+                      )
+                    }
+                  >
+                    <span>Subscribed</span>
+                    <img src="/check.svg" alt="check" />
+                  </button>
+                )
+              ) : loading[item?.category_id] ? (
+                <Oval
+                  visible={true}
+                  height="20"
+                  width="20"
+                  color="#192C61"
+                  ariaLabel="loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
               ) : (
                 <button
                   className="py-[4px] px-[12px] text-primary items-center gap-[8px] rounded-lg border-[1.5px] border-border-color self-center"
