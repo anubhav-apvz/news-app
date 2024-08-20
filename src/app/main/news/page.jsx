@@ -4,7 +4,7 @@ import { convertDate, formatCategory } from "@/services/common";
 import Endpoints from "@/services/constants";
 import React from "react";
 
-const fetchData = async ({userEmail}) => {
+const fetchData = async (userEmail) => {
   try {
     const categoryParams = new URLSearchParams({
       page: 1,
