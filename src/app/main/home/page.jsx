@@ -40,7 +40,6 @@ const fetchUserData = async (userEmail) => {
     const mySubscriptionRes = await (
       await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`, {
         next: { tags: ["homeSubscription"]},
-        cache: "force-cache",
       })
     ).json();
 
@@ -61,7 +60,6 @@ const fetchUserData = async (userEmail) => {
         `${Endpoints.BASE_URL}category-list?${popularCategoryParams}`,
         {
           next: { tags: ["homeSubscription"]},
-          cache: "force-cache",
         }
       )
     ).json();

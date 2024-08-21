@@ -8,8 +8,13 @@ const NewsCard = ({ feedData, isHome = false }) => {
   const router = useRouter();
 
   const handleOnNewsClick = (e) => {
+    console.log('news data --- >>> ', e);
     const query = new URLSearchParams({
-      link: e,
+      title: e?.title,
+      date: e?.date,
+      description: e?.description,
+      text: e?.text,
+      image: e?.images?.originalQuality
     }).toString();
     router.push(`/view-news?${query}`);
   };
@@ -42,7 +47,7 @@ const NewsCard = ({ feedData, isHome = false }) => {
                   key={index}
                   className="flex flex-row gap-[12px] items-center"
                   onClick={() => {
-                    handleOnNewsClick(item?.link);
+                    handleOnNewsClick(item?.data);
                   }}
                 >
                   <div className="flex flex-col w-[80%] gap-[8px]">
