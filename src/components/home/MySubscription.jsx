@@ -2,6 +2,7 @@
 
 import {
   subscribeData,
+  subscriptionRevalidation,
   subscriptionRevalidationHome,
   unSubscribeData,
 } from "@/app/action";
@@ -37,13 +38,7 @@ const MySubscription = ({
   const callServerAction = async () => {
     setRevalidate(true);
     try {
-      await subscriptionRevalidationHome();
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 5000);
-        return;
-      });
+      await Promise.all([subscriptionRevalidationHome(), subscriptionRevalidation()]);
     } catch (error) {
       console.error("Error calling server action:", error);
     } finally {
@@ -70,10 +65,12 @@ const MySubscription = ({
     }
   };
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = async () => {
+    setOpen(true);
+    callServerAction();
+  };
   const handleClose = async () => {
     setOpen(false);
-    callServerAction();
   };
 
   useEffect(() => {

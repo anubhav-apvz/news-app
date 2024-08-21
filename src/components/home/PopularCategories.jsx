@@ -9,6 +9,7 @@ import {
   subscribeData,
   popularRevalidationHome,
   unSubscribeData,
+  subscriptionRevalidation,
 } from "@/app/action";
 import SkeletonCard from "./SkeletonCard";
 
@@ -41,13 +42,7 @@ const PopularCategories = ({
   const callServerAction = async () => {
     setRevalidate(true);
     try {
-      await popularRevalidationHome();
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 5000);
-        return;
-      });
+      await Promise.all([popularRevalidationHome(), subscriptionRevalidation()]) ;
     } catch (error) {
       console.error("Error calling server action:", error);
     } finally {
@@ -80,10 +75,13 @@ const PopularCategories = ({
     }
   };
 
-  const handleOpen = () => setOpen(true);
+  const handleOpen = async () => {
+    setOpen(true);
+    callServerAction();
+  }
+
   const handleClose = async () => {
     setOpen(false);
-    callServerAction();
   };
 
   return (

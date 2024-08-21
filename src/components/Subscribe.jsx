@@ -6,8 +6,10 @@ import { GET } from "@/services/api";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import {
+  popularRevalidationHome,
   subscribeData,
   subscriptionRevalidation,
+  subscriptionRevalidationHome,
   unSubscribeData,
 } from "@/app/action";
 import SkeletonCard from "./home/SkeletonCard";
@@ -41,13 +43,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   const callServerAction = async () => {
     setRevalidate(true);
     try {
-      await subscriptionRevalidation();
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          resolve();
-        }, 5000);
-        return;
-      });
+      await Promise.all([subscriptionRevalidation(), popularRevalidationHome(), subscriptionRevalidationHome()]);
     } catch (error) {
       console.error("Error calling server action:", error);
     } finally {
@@ -157,7 +153,6 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
-    setLoading((prev) => ({ ...prev, [categoryId]: true }));
     setIsSubscribe(isSub);
     setCategoryName(catName);
     if (isSub) {
