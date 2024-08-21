@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { Suspense } from "react";
 
 const NewsCard = ({ feedData, isHome = false }) => {
   const router = useRouter();
@@ -16,14 +17,20 @@ const NewsCard = ({ feedData, isHome = false }) => {
   return (
     <>
       <div className="flex flex-col px-[16px] bg-bg-secondary gap-[12px]">
-        <div className={`flex flex-row items-center justify-between ${isHome ? 'mt-[24px]' : ''}`}>
+        <div
+          className={`flex flex-row items-center justify-between ${
+            isHome ? "mt-[24px]" : ""
+          }`}
+        >
           <span className="text-title3 font-semiBold text-title-large">
             Latest News
           </span>
-          <span className="text-primary font-bold-500 text-title-small" onClick={() => {
-              router.push('/main/news');
-            }
-          }>
+          <span
+            className="text-primary font-bold-500 text-title-small"
+            onClick={() => {
+              router.push("/main/news");
+            }}
+          >
             See all news
           </span>
         </div>
@@ -58,20 +65,22 @@ const NewsCard = ({ feedData, isHome = false }) => {
                       <span
                         className={`py-[3px] px-[6px] rounded-lg text-bg-booking-blue font-bold-500 text-title-5 bg-custom-blue-100`}
                       >
-                        {item?.category}
+                        <Suspense fallback={<></>}>{item?.category}</Suspense>
                       </span>
                     )}
                   </div>
                   <span className="text-text-inactive font-normal text-title-7">
-                    {item?.pubDate}
+                    <Suspense fallback={<></>}> {item?.pubDate}</Suspense>
                   </span>
                 </div>
                 <div>
-                  <img
+                  <Image
                     className="rounded-md"
                     src={item?.image ? item?.image : "/culture.png"}
                     alt="placeholder"
-                    style={{ width: "117px", height: "78px" }}
+                    width={117}
+                    height={78}
+                    // style={{ width: "117px", height: "78px" }}
                   />
                 </div>
               </div>

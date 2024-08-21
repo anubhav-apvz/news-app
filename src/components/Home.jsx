@@ -1,6 +1,9 @@
+import dynamic from "next/dynamic";
+// const HomeWrapper = dynamic(() => import("./home/HomeWrapper"));
 import HomeWrapper from "./home/HomeWrapper";
 
 const Home = ({ feedData, mySubscription, popularCategories, userEmail }) => {
+  
   return (
     <div className="flex flex-col w-full bg-white">
       {/* HEADER */}
@@ -19,6 +22,7 @@ const Home = ({ feedData, mySubscription, popularCategories, userEmail }) => {
       </div>
 
       {/* This is a Home Wrapper */}
+
       <HomeWrapper
         feedData={feedData}
         mySubscription={mySubscription}

@@ -45,7 +45,7 @@ const fetchData = async (userEmail) => {
     let latestNewsData = newsRes?.map((item) => ({
       ...item,
       category: formatCategory(item?.category),
-      pubDate: convertDate(item?.pubDate)
+      pubDate: convertDate(item?.pubDate),
     }));
 
     return [filterData, latestNewsData];
@@ -64,9 +64,10 @@ const getUserDetails = async (key) => {
 };
 
 const page = async () => {
-  const userEmail = (await getUserDetails('session'))?.userDetails?.email;
+  const userEmail = (await getUserDetails("session"))?.userDetails?.email;
   // const userEmail = "temmuz.aslan@kobil.com";
   const data = await fetchData(userEmail);
+
   return <News category={data[0]} feedData={data[1]} />;
 };
 

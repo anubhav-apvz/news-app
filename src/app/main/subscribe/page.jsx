@@ -43,14 +43,13 @@ const getUserDetails = async (key) => {
 
 const page = async () => {
   let data = [];
-  const userEmail = (await getUserDetails('session'))?.userDetails?.email;
+  const userEmail = (await getUserDetails("session"))?.userDetails?.email;
   // const userEmail = "temmuz.aslan@kobil.com";
   if (userEmail) {
     data = await fetchData(userEmail);
   }
-  return (
-    <Subscribe subscriptionData={data} userEmail={userEmail}/>
-  );
+
+  return <Subscribe subscriptionData={data} userEmail={userEmail} />;
 };
 
 export default page;

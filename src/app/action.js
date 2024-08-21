@@ -13,6 +13,10 @@ export async function subscriptionRevalidationHome() {
   revalidateTag("homeSubscription");
 }
 
+export async function popularRevalidationHome() {
+  revalidateTag("homePopular");
+}
+
 export async function signup(userDetails, state, formData) {
   await createSession(userDetails);
   redirect("/main/home");
@@ -64,7 +68,7 @@ export async function unSubscribeData(userEmail, categoryId, categoryName) {
         return res.text();
       }
     })
-    .then((item) => { 
+    .then((item) => {
       return item;
     })
     .catch((error) => {

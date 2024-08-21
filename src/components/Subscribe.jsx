@@ -5,8 +5,13 @@ import Endpoints from "@/services/constants";
 import { GET } from "@/services/api";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import { subscribeData, subscriptionRevalidation, unSubscribeData } from "@/app/action";
-import useSWR from "swr";
+import {
+  subscribeData,
+  subscriptionRevalidation,
+  unSubscribeData,
+} from "@/app/action";
+import SkeletonCard from "./home/SkeletonCard";
+import SkeletonSubscribe from "./SkeletonSubscribe";
 
 const style = {
   position: "absolute",
@@ -29,9 +34,26 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   const [categoryName, setCategoryName] = useState("");
   const [modalHeader, setModalHeader] = useState("");
   const [isSubscribe, setIsSubscribe] = useState(false);
-
+  const [revalidate, setRevalidate] = useState(false);
   // const [subscriptionData, setSubscriptionData] = useState([]);
   const [filteredSubscriptionData, setFilteredSubscriptionData] = useState();
+
+  const callServerAction = async () => {
+    setRevalidate(true);
+    try {
+      await subscriptionRevalidation();
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, 5000);
+        return;
+      });
+    } catch (error) {
+      console.error("Error calling server action:", error);
+    } finally {
+      setRevalidate(false);
+    }
+  };
 
   useEffect(() => {
     if (subscriptionData) {
@@ -131,7 +153,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   const handleClose = async () => {
     setOpen(false);
     // await fetchData();
-    subscriptionRevalidation();
+    callServerAction();
   };
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -144,16 +166,13 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
       setModalHeader("Subscribed succesfully!");
       let subResponse = subscribeData(userEmail, categoryId, catName);
       if (subResponse) {
-        // console.log('sub response -- >>', subResponse)
-        handleOpen()
+        handleOpen();
       }
     } else {
-      // console.log('unsub called')
       setModalHeader("Unsubscribed succesfully!");
       let unSubResponse = unSubscribeData(userEmail, categoryId, catName);
       if (unSubResponse) {
-        // console.log('unsub response -- >>', unSubResponse)
-        handleOpen()
+        handleOpen();
       }
     }
   };
@@ -201,56 +220,60 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
       </div>
 
       <div className="flex flex-col px-[16px] mb-[10px]">
-        {filteredSubscriptionData?.map((item, index) => (
-          <div
-            key={index}
-            className="flex flex-row mt-[14px] p-[16px] bg-white rounded-xl gap-[10px] cursor-pointer"
-          >
-            <div className="flex flex-row flex-grow items-center gap-[16px]">
-              <img src={item?.image} alt="header" />
-              <div className="flex flex-col gap-[4px]">
-                <span className="text-title3 font-semiBold text-title-tight">
-                  {item?.category_name}
-                </span>
-                <span className="self-start text-text-secondary font-bold-normal text-title-7">
-                  {item?.total_subscribers} subscribers
-                </span>
+        {revalidate ? (
+          <SkeletonSubscribe></SkeletonSubscribe>
+        ) : (
+          filteredSubscriptionData?.map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-row mt-[14px] p-[16px] bg-white rounded-xl gap-[10px] cursor-pointer"
+            >
+              <div className="flex flex-row flex-grow items-center gap-[16px]">
+                <img src={item?.image} alt="header" />
+                <div className="flex flex-col gap-[4px]">
+                  <span className="text-title3 font-semiBold text-title-tight">
+                    {item?.category_name}
+                  </span>
+                  <span className="self-start text-text-secondary font-bold-normal text-title-7">
+                    {item?.total_subscribers} subscribers
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col items-end justify-center">
+                {item?.subscribed ? (
+                  <button
+                    className="inline-flex max-w-[120px] self-center p-[4px] text-bg-booking-blue items-center gap-[8px] rounded-lg bg-custom-blue-100 border-[1.5px] border-bg-booking-blue xl:self-center"
+                    onClick={() =>
+                      handleSubscribe(
+                        false,
+                        userEmail,
+                        item?.category_id,
+                        item?.category_name
+                      )
+                    }
+                  >
+                    Subscribed
+                    <img src="/check.svg" alt="check" />
+                  </button>
+                ) : (
+                  <button
+                    className="py-[4px] px-[12px] text-primary items-center gap-[8px] rounded-lg border-[1.5px] border-border-color self-center"
+                    onClick={() =>
+                      handleSubscribe(
+                        true,
+                        userEmail,
+                        item?.category_id,
+                        item?.category_name
+                      )
+                    }
+                  >
+                    <span>Subscribe</span>
+                  </button>
+                )}
               </div>
             </div>
-            <div className="flex flex-col items-end justify-center">
-              {item?.subscribed ? (
-                <button
-                  className="inline-flex max-w-[120px] self-center p-[4px] text-bg-booking-blue items-center gap-[8px] rounded-lg bg-custom-blue-100 border-[1.5px] border-bg-booking-blue xl:self-center"
-                  onClick={() =>
-                    handleSubscribe(
-                      false,
-                      userEmail,
-                      item?.category_id,
-                      item?.category_name
-                    )
-                  }
-                >
-                  Subscribed
-                  <img src="/check.svg" alt="check" />
-                </button>
-              ) : (
-                <button
-                  className="py-[4px] px-[12px] text-primary items-center gap-[8px] rounded-lg border-[1.5px] border-border-color self-center"
-                  onClick={() =>
-                    handleSubscribe(
-                      true,
-                      userEmail,
-                      item?.category_id,
-                      item?.category_name
-                    )
-                  }
-                >
-                  <span>Subscribe</span>
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
 
       <Modal
