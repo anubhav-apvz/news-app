@@ -11,7 +11,9 @@ import Endpoints from "@/services/constants";
 const fetchFeedData = async () => {
   try {
     const newsRes = await (
-      await fetch(`${Endpoints.BASE_URL}latest-news`)
+      await fetch(`${Endpoints.BASE_URL}latest-news`, {
+        cache: "force-cache",
+      })
     ).json();
 
     let latestNewsData = newsRes?.map((item) => ({
@@ -37,7 +39,7 @@ const fetchUserData = async (userEmail) => {
 
     const mySubscriptionRes = await (
       await fetch(`${Endpoints.BASE_URL}category-list?${categoryParams}`, {
-        next: { tags: ["homeSubscription"] },
+        next: { tags: ["homeSubscription"]},
       })
     ).json();
 

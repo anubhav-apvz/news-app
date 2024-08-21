@@ -8,8 +8,13 @@ const NewsCard = ({ feedData, isHome = false }) => {
   const router = useRouter();
 
   const handleOnNewsClick = (e) => {
+    console.log('news data --- >>> ', e);
     const query = new URLSearchParams({
-      link: e,
+      title: e?.title,
+      date: e?.date,
+      description: e?.description,
+      text: e?.text,
+      image: e?.images?.originalQuality
     }).toString();
     router.push(`/view-news?${query}`);
   };
@@ -35,61 +40,62 @@ const NewsCard = ({ feedData, isHome = false }) => {
           </span>
         </div>
         <div className="flex flex-col p-[16px] bg-white rounded-xl gap-[16px]">
-          {feedData && feedData.length > 0 ? (
-            feedData?.map((item, index) => (
-              <div
-                key={index}
-                className="flex flex-row gap-[12px] items-center"
-                onClick={() => {
-                  handleOnNewsClick(item?.link);
-                }}
-              >
-                <div className="flex flex-col w-[80%] gap-[8px]">
-                  <span className="text-title3 font-semiBold text-title-tight">
-                    {item?.title}
-                  </span>
-                  <span className="text-text-secondary font-normal text-title-5">
-                    {item?.description?.slice(0, 60)} ...
-                  </span>
-                  <div className="flex flex-wrap items-center gap-[4px]">
-                    {Array.isArray(item?.category) ? (
-                      item?.category?.slice(0, 3)?.map((ele, i) => (
+          
+            {feedData && feedData.length > 0 ? (
+              feedData?.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row gap-[12px] items-center"
+                  onClick={() => {
+                    handleOnNewsClick(item?.data);
+                  }}
+                >
+                  <div className="flex flex-col w-[80%] gap-[8px]">
+                    <span className="text-title3 font-semiBold text-title-tight">
+                      {item?.title}
+                    </span>
+                    <span className="text-text-secondary font-normal text-title-5">
+                      {item?.description?.slice(0, 60)} ...
+                    </span>
+                    <div className="flex flex-wrap items-center gap-[4px]">
+                      {Array.isArray(item?.category) ? (
+                        item?.category?.slice(0, 3)?.map((ele, i) => (
+                          <span
+                            key={i}
+                            className={`py-[3px] px-[6px] rounded-lg text-bg-booking-blue font-bold-500 text-title-5 bg-custom-blue-100`}
+                          >
+                            {ele}
+                          </span>
+                        ))
+                      ) : (
                         <span
-                          key={i}
                           className={`py-[3px] px-[6px] rounded-lg text-bg-booking-blue font-bold-500 text-title-5 bg-custom-blue-100`}
                         >
-                          {ele}
+                          {item?.category}
                         </span>
-                      ))
-                    ) : (
-                      <span
-                        className={`py-[3px] px-[6px] rounded-lg text-bg-booking-blue font-bold-500 text-title-5 bg-custom-blue-100`}
-                      >
-                        <Suspense fallback={<></>}>{item?.category}</Suspense>
-                      </span>
-                    )}
+                      )}
+                    </div>
+                    <span className="text-text-inactive font-normal text-title-7">
+                      {item?.pubDate}
+                    </span>
                   </div>
-                  <span className="text-text-inactive font-normal text-title-7">
-                    <Suspense fallback={<></>}> {item?.pubDate}</Suspense>
-                  </span>
+                  <div>
+                    <Image
+                      className="rounded-md"
+                      src={item?.image ? item?.image : "/culture.png"}
+                      alt="placeholder"
+                      width={117}
+                      height={78}
+                      // style={{ width: "117px", height: "78px" }}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <Image
-                    className="rounded-md"
-                    src={item?.image ? item?.image : "/culture.png"}
-                    alt="placeholder"
-                    width={117}
-                    height={78}
-                    // style={{ width: "117px", height: "78px" }}
-                  />
-                </div>
-              </div>
-            ))
-          ) : (
-            <span className="text-text-secondary font-normal text-title-5">
-              No data Found! Please reload.
-            </span>
-          )}
+              ))
+            ) : (
+              <span className="text-text-secondary font-normal text-title-5">
+                No data Found! Please reload.
+              </span>
+            )}
         </div>
       </div>
     </>

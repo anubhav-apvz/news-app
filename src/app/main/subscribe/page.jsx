@@ -17,7 +17,8 @@ const fetchData = async (userEmail) => {
 
     const popularRes = await (
       await fetch(`${Endpoints.BASE_URL}category-list?${payload}`, {
-        next: { tags: ["subscription"] },
+        next: { tags: ["subscription"], revalidate: 900 },
+        cache: 'force-cache'
       })
     ).json();
 

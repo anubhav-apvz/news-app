@@ -2,7 +2,7 @@
 
 import { mapCategoryIcons } from "@/services/common";
 import Endpoints from "@/services/constants";
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Box, Modal } from "@mui/material";
 import { GET } from "@/services/api";
 import {
@@ -36,6 +36,7 @@ const PopularCategories = ({
   const [modalHeader, setModalHeader] = useState("");
   const [isSubscribe, setIsSubscribe] = useState(false);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState({});
 
   const callServerAction = async () => {
     setRevalidate(true);
@@ -61,6 +62,7 @@ const PopularCategories = ({
   }, [popularCategoriesData]);
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
+    setLoading((prev) => ({ ...prev, [categoryId]: true }));
     setIsSubscribe(isSub);
     setCategoryName(catName);
     if (isSub) {

@@ -110,7 +110,6 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
         image: mapCategoryIcons(item?.category_name),
       }));
       setFilteredSubscriptionData(popularData);
-      // setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -128,7 +127,6 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
               image: mapCategoryIcons(item?.category_name),
             }))
         );
-        // setSubscriptionData(popularData);
       } else {
         setFilteredSubscriptionData(
           subscriptionData.map((item) => ({
@@ -159,7 +157,7 @@ const Subscribe = ({ subscriptionData, userEmail }) => {
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
-    // handleOpen();
+    setLoading((prev) => ({ ...prev, [categoryId]: true }));
     setIsSubscribe(isSub);
     setCategoryName(catName);
     if (isSub) {

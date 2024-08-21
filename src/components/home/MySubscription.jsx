@@ -32,6 +32,7 @@ const MySubscription = ({
   const [modalHeader, setModalHeader] = useState("");
   const [isSubscribe, setIsSubscribe] = useState(false);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState({});
 
   const callServerAction = async () => {
     setRevalidate(true);
@@ -51,6 +52,7 @@ const MySubscription = ({
   };
 
   const handleSubscribe = async (isSub, userEmail, categoryId, catName) => {
+    setLoading((prev) => ({ ...prev, [categoryId]: true }));
     setIsSubscribe(isSub);
     setCategoryName(catName);
     if (isSub) {
@@ -58,13 +60,13 @@ const MySubscription = ({
       let subResponse = subscribeData(userEmail, categoryId, catName);
       if (subResponse) {
         handleOpen();
-      }
+      };
     } else {
       setModalHeader("Unsubscribed succesfully!");
       let unSubResponse = unSubscribeData(userEmail, categoryId, catName);
       if (unSubResponse) {
         handleOpen();
-      }
+      };
     }
   };
 
